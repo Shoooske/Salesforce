@@ -1,0 +1,28 @@
+IF(OR(Field12__c = True, Field17__c = True, Field21__c = True),
+  IF(AND(ServiceDate <= DATE(IF(OR(MONTH(TODAY()) = 1,MONTH(TODAY()) = 2, MONTH(TODAY()) = 3), YEAR(TODAY()) -1, YEAR(TODAY())), 4, 30), 
+          Field1__c >= DATE(IF(OR(MONTH(TODAY()) = 1, MONTH(TODAY()) = 2, MONTH(TODAY()) = 3), YEAR(TODAY()) -1, YEAR(TODAY())), 4, 1)
+        ), 
+    IF(AND(YEAR(ServiceDate) = IF(OR(MONTH(TODAY()) = 1,MONTH(TODAY()) = 2, MONTH(TODAY()) = 3), YEAR(TODAY()) -1, YEAR(TODAY())), 
+           MONTH(ServiceDate) = 4
+           ),
+      IF(AND(YEAR(Field1__c) = IF(OR(MONTH(TODAY()) = 1,MONTH(TODAY()) = 2, MONTH(TODAY()) = 3), YEAR(TODAY()) -1, YEAR(TODAY())), 
+             MONTH(Field1__c) = 4
+             ),
+         TRUE Field9__c * ((DAY(Field1__c) - DAY(ServiceDate) + 1) / Field20__c),
+         Field9__c * ((30 - DAY(ServiceDate) + 1) / Field20__c)
+         ),
+      IF(AND(YEAR(Field1__c) = IF(OR(MONTH(TODAY()) = 1,MONTH(TODAY()) = 2, MONTH(TODAY()) = 3), YEAR(TODAY()) -1, YEAR(TODAY())), 
+             MONTH(Field1__c) = 4
+             ),
+         TRUE  Field9__c * ((DAY(Field1__c)) / Field20__c), 
+         FALSE Field9__c * (30 / Field20__c)
+         )
+      ), 
+    0
+    ),
+  IF(AND(YEAR(ServiceDate) = IF(OR(MONTH(TODAY()) = 1,MONTH(TODAY()) = 2, MONTH(TODAY()) = 3), YEAR(TODAY()) -1, YEAR(TODAY())), 
+         MONTH(ServiceDate) = 4
+         ), 
+       Field9__c, 
+       0)
+)
